@@ -34,7 +34,7 @@ namespace TimeTrackingYoutrack
             UserInfo userInfo = null;
             using (var client = new HttpClient())
             {
-              
+
                 var req = new HttpRequestMessage(HttpMethod.Get, "http://sa-yt.ipps.by/api/users/me?fields=$type,banned,email,fullName,guest,id,login,ringId");
                 req.Headers.Add("Accept", "application/json");
                 req.Headers.Add("Authorization", $"Bearer {token}");
@@ -44,13 +44,13 @@ namespace TimeTrackingYoutrack
                 if (response.IsSuccessStatusCode)
                 {
                     string result = response.Content.ReadAsStringAsync().Result;
-                     userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                    userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
 
                 }
             }
-            if((userInfo != null)&&(!userInfo.Guest))
+            if ((userInfo != null) && (!userInfo.Guest))
             {
-                MessageBox.Show($"Логин: {userInfo.Login}\nФИО: {userInfo.FullName}","Успешная авторизация",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Логин: {userInfo.Login}\nФИО: {userInfo.FullName}", "Успешная авторизация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 panelToken.Visible = false;
 
             }
@@ -58,18 +58,16 @@ namespace TimeTrackingYoutrack
             {
                 MessageBox.Show($"Произошла ошибка авторизации, токен не распознан", "Ошибка авторизации", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
-        }
 
+        }
+        private void btnShowNotify_Click(object sender, EventArgs e)
+        {
+            _notificationService.Show();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
-
-        
-        //ivate void btnShowNotify_Click(object sender, EventArgs e)
-       //
-          //_notificationService.Show();
-
-      //}
+        }
     }
 }
+
