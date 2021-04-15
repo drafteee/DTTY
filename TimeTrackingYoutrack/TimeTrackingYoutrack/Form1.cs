@@ -15,12 +15,15 @@ using System.Windows.Forms;
 using TimeTrackingYoutrack.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Collections;
+using System.Threading;
+using HttpListener = TimeTrackingYoutrack.Services.HttpListener;
 
 namespace TimeTrackingYoutrack
 {
     public partial class Form1 : Form
     {
         private NotificationService _notificationService;
+        private Thread thread;
         public Form1()
         {
             InitializeComponent();
@@ -63,13 +66,20 @@ namespace TimeTrackingYoutrack
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            thread = new Thread(new ThreadStart(HttpListener.Run));
 
+            thread.Start();
 
-        
-        //ivate void btnShowNotify_Click(object sender, EventArgs e)
-       //
-          //_notificationService.Show();
+        }
+        private void btnShowNotify_Click(object sender, EventArgs e)
+        { 
+            _notificationService.Show();
 
-      //}
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            thread.Abort();
+        }
     }
 }
