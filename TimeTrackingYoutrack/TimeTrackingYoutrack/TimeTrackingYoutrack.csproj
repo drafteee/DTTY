@@ -12,6 +12,8 @@
 
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.1" />
 
+    <PackageReference Include="YouTrackSharp" Version="2020.3.1" />
+
   </ItemGroup>
 
 </Project>

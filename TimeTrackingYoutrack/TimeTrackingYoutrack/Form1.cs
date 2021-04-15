@@ -16,41 +16,27 @@ using TimeTrackingYoutrack.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Collections;
 using System.Threading;
-using HttpListener = TimeTrackingYoutrack.Services.HttpListener;
 
 namespace TimeTrackingYoutrack
 {
     public partial class Form1 : Form
     {
         private NotificationService _notificationService;
+        private YouTrack _youTrack;
         private Thread thread;
         public Form1()
         {
             InitializeComponent();
             _notificationService = new NotificationService();
+            _youTrack = new YouTrack();
         }
 
 
         private async void button1_Click(object sender, EventArgs e)
         {
             string token = this.textBoxToken.Text;
-            UserInfo userInfo = null;
-            using (var client = new HttpClient())
-            {
+            UserInfo userInfo = await _youTrack.Login(token);
 
-                var req = new HttpRequestMessage(HttpMethod.Get, "http://sa-yt.ipps.by/api/users/me?fields=$type,banned,email,fullName,guest,id,login,ringId");
-                req.Headers.Add("Accept", "application/json");
-                req.Headers.Add("Authorization", $"Bearer {token}");
-                req.Headers.Add("Cache-Control", "no-cache");
-
-                HttpResponseMessage response = await client.SendAsync(req);
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = response.Content.ReadAsStringAsync().Result;
-                    userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-
-                }
-            }
             if ((userInfo != null) && (!userInfo.Guest))
             {
                 MessageBox.Show($"Логин: {userInfo.Login}\nФИО: {userInfo.FullName}", "Успешная авторизация", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -69,14 +55,9 @@ namespace TimeTrackingYoutrack
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            thread = new Thread(new ThreadStart(HttpListener.Run));
+            thread = new Thread(new ThreadStart(HttpListenerYouTrack.Run));
 
             thread.Start();
-
-        }
-        private void btnShowNotify_Click(object sender, EventArgs e)
-        { 
-            _notificationService.Show();
 
         }
 
