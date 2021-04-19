@@ -1,32 +1,24 @@
-﻿using Newtonsoft.Json;
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TimeTrackingYoutrack.Services;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation.Collections;
 using System.Threading;
+using System.Reflection;
+using System.Net.Http;
+using System.Drawing;
 
 namespace TimeTrackingYoutrack
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private NotificationService _notificationService;
         private YouTrack _youTrack;
         private Thread thread;
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
+            InitCustomElements();
             _notificationService = new NotificationService();
             _youTrack = new YouTrack();
         }
@@ -51,19 +43,45 @@ namespace TimeTrackingYoutrack
         }
         private void btnShowNotify_Click(object sender, EventArgs e)
         {
-            _notificationService.Show();
+            //_notificationService.Show();
+            
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             thread = new Thread(new ThreadStart(HttpListenerYouTrack.Run));
-
+            thread.IsBackground = true;
             thread.Start();
 
+            //var auth = _youTrack.LoadJson();
+            //if(auth.Token != null)
+            //{
+            //    panelToken.Visible = false;
+            //    Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - Width,
+            //           Screen.PrimaryScreen.WorkingArea.Height - Height);
+            //    try
+            //    {
+            //        await _youTrack.Login(auth.Token);
+            //    }catch(HttpRequestException ex)
+            //    {
+            //        MessageBox.Show($"Произошла ошибка авторизации, не найден хост", "Ошибка авторизации", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+
+                
+
+            //    //labelToken.Visible = false;
+            //    //buttonLoginByToken.Visible = false;
+            //    //textBoxToken.Visible = false;
+            //}
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            thread.Abort();
+            //thread.Interrupt();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
