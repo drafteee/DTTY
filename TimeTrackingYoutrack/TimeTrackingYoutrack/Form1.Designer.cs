@@ -105,10 +105,9 @@ namespace TimeTrackingYoutrack
             // panelButtons
             // 
             this.panelButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-
             this.panelButtons.Controls.Add(this.panelLogo);
-
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelButtons.ForeColor = System.Drawing.Color.Gainsboro;
             this.panelButtons.Location = new System.Drawing.Point(0, 0);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(130, 527);
@@ -145,11 +144,11 @@ namespace TimeTrackingYoutrack
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.panelToken);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "YouTrack";
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelToken.ResumeLayout(false);
@@ -190,7 +189,7 @@ namespace TimeTrackingYoutrack
             this.buttonAccount.IconSize = 32;
 
             //this.buttonAccount.UseVisualStyleBackColor = true;
-            //this.buttonAccount.Click += new System.EventHandler(this.btnShowNotify_Click);
+            this.buttonAccount.Click += new System.EventHandler(this.buttonAccount_Click);
             this.panelButtons.Controls.Remove(this.panelLogo);
 
             this.panelButtons.Controls.Add(this.buttonAccount);

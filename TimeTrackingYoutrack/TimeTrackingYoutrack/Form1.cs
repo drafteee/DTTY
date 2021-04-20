@@ -7,6 +7,7 @@ using System.Threading;
 using System.Reflection;
 using System.Net.Http;
 using System.Drawing;
+using FontAwesome.Sharp;
 
 namespace TimeTrackingYoutrack
 {
@@ -14,13 +15,63 @@ namespace TimeTrackingYoutrack
     {
         private NotificationService _notificationService;
         private YouTrack _youTrack;
-        private Thread thread;
+        private Thread _thread;
+
+        private IconButton _btnCurrent;
+        private Panel _leftBorderBtn;
+
         public MainForm()
         {
             InitializeComponent();
             InitCustomElements();
+
+            _leftBorderBtn = new Panel();
+            _leftBorderBtn.Size = new Size(8, 50);
+            panelButtons.Controls.Add(_leftBorderBtn);
+
             _notificationService = new NotificationService();
             _youTrack = new YouTrack();
+        }
+
+
+        private struct RGBColors
+        {
+            public static Color color1 = Color.FromArgb(172, 126, 241);
+            public static Color color2 = Color.FromArgb(249, 118, 176);
+            public static Color color3 = Color.FromArgb(253, 138, 114);
+            public static Color color4 = Color.FromArgb(95, 77, 221);
+            public static Color color5 = Color.FromArgb(249, 88, 155);
+            public static Color color6 = Color.FromArgb(24, 161, 251);
+        }
+
+        private void ActivateButton(object senderBtn, Color color)
+        {
+            if(senderBtn != null)
+            {
+                DisableButton();
+
+                _btnCurrent = (IconButton)senderBtn;
+                _btnCurrent.BackColor = Color.FromArgb(37, 36, 81);
+                _btnCurrent.ForeColor = color;
+                _btnCurrent.TextAlign = ContentAlignment.MiddleCenter;
+                _btnCurrent.IconColor = color;
+
+                _leftBorderBtn.BackColor = color;
+                _leftBorderBtn.Location = new Point(0, _btnCurrent.Location.Y);
+                _leftBorderBtn.Visible = true;
+                _leftBorderBtn.BringToFront();
+            }
+        }
+
+        private void DisableButton()
+        {
+            if(_btnCurrent != null)
+            {
+                _btnCurrent.BackColor = Color.FromArgb(28,28,28);
+                _btnCurrent.ForeColor = Color.Gainsboro;
+                _btnCurrent.TextAlign = ContentAlignment.MiddleLeft;
+                _btnCurrent.IconColor = Color.Gainsboro;
+            }
         }
 
 
@@ -48,9 +99,9 @@ namespace TimeTrackingYoutrack
         }
         private async void Form1_Load(object sender, EventArgs e)
         {
-            thread = new Thread(new ThreadStart(HttpListenerYouTrack.Run));
-            thread.IsBackground = true;
-            thread.Start();
+            _thread = new Thread(new ThreadStart(HttpListenerYouTrack.Run));
+            _thread.IsBackground = true;
+            _thread.Start();
 
             //var auth = _youTrack.LoadJson();
             //if(auth.Token != null)
@@ -83,6 +134,13 @@ namespace TimeTrackingYoutrack
         {
             Close();
         }
+
+        private void buttonAccount_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, RGBColors.color1);
+        }
+        
+
     }
 }
 
