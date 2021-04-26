@@ -19,6 +19,9 @@ namespace TimeTrackingYoutrack
 
         private IconButton _btnCurrent;
         private Panel _leftBorderBtn;
+        private bool _isMinimize = false;
+        private bool _isTimerWorking = false;
+        private DateTime _dateTime = new DateTime(0);
 
         public MainForm()
         {
@@ -28,9 +31,9 @@ namespace TimeTrackingYoutrack
             _leftBorderBtn = new Panel();
             _leftBorderBtn.Size = new Size(8, 50);
             panelButtons.Controls.Add(_leftBorderBtn);
-
             _notificationService = new NotificationService();
             _youTrack = new YouTrack();
+
         }
 
 
@@ -139,8 +142,69 @@ namespace TimeTrackingYoutrack
         {
             ActivateButton(sender, RGBColors.color1);
         }
-        
 
+        private void buttonMinimize_Click(object sender, EventArgs e)
+        {
+            this.panelButtons.Visible = false;
+            //this.panelLogo.Visible = false;
+            this.panelToken.Visible = false;
+            this.Size = new Size(350, 150);
+            _isMinimize = true;
+            this.Opacity = 0.5;
+            Rectangle workingArea = Screen.GetWorkingArea(this);
+            this.Location = new Point(workingArea.Right - Size.Width,
+                          workingArea.Bottom - Size.Height);
+            this.panelTimer.Location = new Point(0, 0);
+            
+        }
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isMinimize)
+            {
+                //this.Opacity = 1;
+            }
+        }
+
+        private void OnMouseLeave(object sender, EventArgs e)
+        {
+            if (_isMinimize)
+            {
+                //this.Opacity = 0.2;
+            }
+        }
+
+        private void startTimerPictureBox_Click(object sender, EventArgs e)
+        {
+            if (_isTimerWorking)
+            {
+                mainTimer.Stop();
+                this.startStopTimerPictureBox.Image = Properties.Resources.StartTimerButtomImage;
+                _isTimerWorking = false;
+            }
+            else
+            {
+                mainTimer.Start();
+                this.startStopTimerPictureBox.Image = Properties.Resources.StopTimerButtomImage;
+                _isTimerWorking = true;
+
+            }
+        }
+
+        private void onStartStopTimerMouseMove(object sender, MouseEventArgs e)
+        {
+           //this.startStopTimerPictureBox=
+        }
+
+        private void onStartStopTimerMouseLeave(object sender, EventArgs e)
+        {
+        }
+
+        private void onTimerTick(object sender, EventArgs e)
+        {
+           _dateTime= _dateTime.AddSeconds(1);
+            this.timerLabel.Text = _dateTime.ToString("HH:mm:ss");
+        }
     }
 }
 

@@ -30,6 +30,7 @@ namespace TimeTrackingYoutrack
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonLoginByToken = new System.Windows.Forms.Button();
             this.textBoxToken = new System.Windows.Forms.TextBox();
@@ -40,10 +41,17 @@ namespace TimeTrackingYoutrack
             this.panelButtons = new System.Windows.Forms.Panel();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panelTimer = new System.Windows.Forms.Panel();
+            this.timerLabel = new System.Windows.Forms.Label();
+            this.startStopTimerPictureBox = new System.Windows.Forms.PictureBox();
+            this.buttonMinimize = new System.Windows.Forms.Button();
+            this.mainTimer = new System.Windows.Forms.Timer(this.components);
             this.panelToken.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panelTimer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.startStopTimerPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLoginByToken
@@ -133,6 +141,56 @@ namespace TimeTrackingYoutrack
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // panelTimer
+            // 
+            this.panelTimer.Controls.Add(this.timerLabel);
+            this.panelTimer.Controls.Add(this.startStopTimerPictureBox);
+            this.panelTimer.Location = new System.Drawing.Point(237, 361);
+            this.panelTimer.Name = "panelTimer";
+            this.panelTimer.Size = new System.Drawing.Size(338, 100);
+            this.panelTimer.TabIndex = 9;
+            // 
+            // timerLabel
+            // 
+            this.timerLabel.AutoSize = true;
+            this.timerLabel.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.timerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.timerLabel.Location = new System.Drawing.Point(82, 15);
+            this.timerLabel.Name = "timerLabel";
+            this.timerLabel.Size = new System.Drawing.Size(204, 65);
+            this.timerLabel.TabIndex = 9;
+            this.timerLabel.Text = "00:00:00";
+            // 
+            // startStopTimerPictureBox
+            // 
+            this.startStopTimerPictureBox.BackColor = System.Drawing.SystemColors.Window;
+            this.startStopTimerPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.startStopTimerPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("startStopTimerPictureBox.Image")));
+            this.startStopTimerPictureBox.Location = new System.Drawing.Point(17, 19);
+            this.startStopTimerPictureBox.Name = "startStopTimerPictureBox";
+            this.startStopTimerPictureBox.Size = new System.Drawing.Size(60, 60);
+            this.startStopTimerPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.startStopTimerPictureBox.TabIndex = 8;
+            this.startStopTimerPictureBox.TabStop = false;
+            this.startStopTimerPictureBox.Click += new System.EventHandler(this.startTimerPictureBox_Click);
+            this.startStopTimerPictureBox.MouseLeave += new System.EventHandler(this.onStartStopTimerMouseLeave);
+            this.startStopTimerPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onStartStopTimerMouseMove);
+            // 
+            // buttonMinimize
+            // 
+            this.buttonMinimize.Location = new System.Drawing.Point(340, 249);
+            this.buttonMinimize.Name = "buttonMinimize";
+            this.buttonMinimize.Size = new System.Drawing.Size(64, 23);
+            this.buttonMinimize.TabIndex = 6;
+            this.buttonMinimize.Text = "Minimize";
+            this.buttonMinimize.UseVisualStyleBackColor = true;
+            this.buttonMinimize.Click += new System.EventHandler(this.buttonMinimize_Click);
+            // 
+            // mainTimer
+            // 
+            this.mainTimer.Interval = 1000;
+            this.mainTimer.Tick += new System.EventHandler(this.onTimerTick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -140,23 +198,27 @@ namespace TimeTrackingYoutrack
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(638, 527);
+            this.Controls.Add(this.buttonMinimize);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.panelToken);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Controls.Add(this.panelTimer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "YouTrack";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseLeave += new System.EventHandler(this.OnMouseLeave);
             this.panelToken.ResumeLayout(false);
             this.panelToken.PerformLayout();
             this.panelButtons.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             this.panelLogo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panelTimer.ResumeLayout(false);
+            this.panelTimer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.startStopTimerPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -209,6 +271,11 @@ namespace TimeTrackingYoutrack
         private System.Windows.Forms.Panel panelButtons;
         private System.Windows.Forms.Panel panelLogo;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonMinimize;
+        private System.Windows.Forms.PictureBox startStopTimerPictureBox;
+        private System.Windows.Forms.Panel panelTimer;
+        private System.Windows.Forms.Timer mainTimer;
+        private System.Windows.Forms.Label timerLabel;
     }
 }
 

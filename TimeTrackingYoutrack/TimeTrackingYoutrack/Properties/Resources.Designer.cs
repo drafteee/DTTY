@@ -59,5 +59,25 @@ namespace TimeTrackingYoutrack.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StartTimerButtomImage {
+            get {
+                object obj = ResourceManager.GetObject("StartTimerButtomImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StopTimerButtomImage {
+            get {
+                object obj = ResourceManager.GetObject("StopTimerButtomImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
