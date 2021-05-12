@@ -4,3 +4,4 @@ Desktop time tracker for local youtrack
 
 
 
+test
